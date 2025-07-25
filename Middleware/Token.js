@@ -16,7 +16,7 @@ const Protect = (req, res, next) => {
     let token = req.headers.authorization?.split(" ")[1];
 
 
-    console.log("Does token ", token);
+    // console.log("Does token ", token);
 
 
     // if (!token) {

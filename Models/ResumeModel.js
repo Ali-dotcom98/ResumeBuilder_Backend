@@ -17,13 +17,13 @@ const ResumeModel = new mongoose.Schema({
         linkedin: String,
         github: String,
     },
-    workExperinence: {
+    workExperinence: [{
         company: String,
         role: String,
         startDate: String,
         endDate: String,
         description: String
-    },
+    }],
     education: {
         degree: String,
         institue: String,
@@ -49,12 +49,13 @@ const ResumeModel = new mongoose.Schema({
         name: String,
         progress: Number
     }],
-    template: {
-        colorPlates: [
-            { type: String }
-        ]
-    },
+
     interest: [String],
+    template: {
+        theme: { type: String },
+        colorPalette: { type: String }
+    }
+
 
 }, { timestamps: { createdAt: "createdAt", updatedAt: "updatedAt" } });
 

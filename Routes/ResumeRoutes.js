@@ -97,7 +97,7 @@ router.get("/GetR", async (req, res) => {
 
 router.get("/GetR/:id", async (req, res) => {
     try {
-        const resume = await Resume.find({ _id: req.params.id, UserId: req.user._id })
+        const resume = await Resume.findOne({ _id: req.params.id })
         if (!resume)
             return res.status(404).send({ Message: "Resume Not exist" })
         return res.json(resume);
