@@ -24,12 +24,12 @@ const ResumeModel = new mongoose.Schema({
         endDate: String,
         description: String
     }],
-    education: {
+    education: [{
         degree: String,
         institue: String,
         startDate: String,
         endDate: String
-    },
+    }],
     skills: [{
         name: String,
         progress: Number,
