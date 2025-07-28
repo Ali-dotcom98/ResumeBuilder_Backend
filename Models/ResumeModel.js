@@ -10,14 +10,14 @@ const ResumeModel = new mongoose.Schema({
         designation: String,
         summary: String,
     },
-    constactInfo: {
+    contactInfo: {
         email: String,
         phone: String,
         location: String,
         linkedin: String,
         github: String,
     },
-    workExperinence: [{
+    workExperience: [{
         company: String,
         role: String,
         startDate: String,
@@ -34,23 +34,23 @@ const ResumeModel = new mongoose.Schema({
         name: String,
         progress: Number,
     }],
-    project: [{
+    projects: [{
         title: String,
         description: String,
         github: String,
         liveDemo: String,
     }],
-    certification: [{
+    certifications: [{
         title: String,
         issuer: String,
         year: String,
     }],
-    language: [{
+    languages: [{
         name: String,
         progress: Number
     }],
 
-    interest: [String],
+    interests: [String],
     template: {
         theme: { type: String },
         colorPalette: { type: String }
