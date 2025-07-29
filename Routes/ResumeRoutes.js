@@ -3,6 +3,7 @@ const User = require("../Models/UserModel")
 const Resume = require("../Models/ResumeModel")
 const fs = require("fs")
 const path = require("path")
+const upload = require("../Middleware/uploadMiddleware")
 
 const router = express.Router();
 const { GenerateToken, VerifyToken, Protect } = require("../Middleware/Token");
@@ -129,18 +130,27 @@ router.put("/:id/upload-image", (req, res) => {
             }
 
             const resumeId = req.params.id;
-            const resume = await Resume.findOne({ _id: resumeId, userId: req.user._id });
+            const resume = await Resume.findOne({ _id: resumeId });
+            console.log(resume);
+
 
             if (!resume) {
                 return res.status(404).json({ message: "Resume not found or unauthorized" });
             }
 
-            const uploadsFolder = path.join(__dirname, '..', 'uploads');
+            const uploadsFolder = path.join(__dirname, '..', 'upload');
+            console.log("uploadsFolder", uploadsFolder);
+
             const baseUrl = `${req.protocol}://${req.get("host")}`;
 
             const newThumbnail = req.files.thumbnail?.[0];
             const newProfileImage = req.files.profileImage?.[0];
+
+
+            console.log("newProfileImage", newProfileImage);
+
             if (newThumbnail) {
+                console.log("resume.thumbnaillink", resume.thumbnaillink);
                 if (resume.thumbnaillink) {
                     const oldThumbnail = path.join(uploadsFolder, path.basename(resume.thumbnaillink));
                     if (fs.existsSync(oldThumbnail)) fs.unlinkSync(oldThumbnail);
@@ -151,18 +161,21 @@ router.put("/:id/upload-image", (req, res) => {
             // If new profile image uploaded, delete old one
             // if (newProfileImage && resume.profileInfo?.profilePreviewUrl) { // Original commented line
             if (newProfileImage) {
+                console.log("resume.profileInfo?.profilePreviewUrl", resume.profileInfo?.profilePreviewUrl);
+
                 if (resume.profileInfo?.profilePreviewUrl) {
                     const oldProfile = path.join(uploadsFolder, path.basename(resume.profileInfo.profilePreviewUrl));
                     if (fs.existsSync(oldProfile)) fs.unlinkSync(oldProfile);
                 }
                 resume.profileInfo.profilePreviewUrl = `${baseUrl}/uploads/${newProfileImage.filename}`;
             }
+            console.log("profilePreviewUrl: resume.profilePreviewUrl", resume.profilePreviewUrl);
 
             await resume.save();
             res.status(200).json({
                 Message: "Images uploaded Successfully",
                 thumbnaillink: resume.thumbnaillink,
-                profilePreviewUrl: resume.profilePreviewUrl
+                profilePreviewUrl: resume.profileInfo.profilePreviewUrl
             })
         });
     } catch (error) {
