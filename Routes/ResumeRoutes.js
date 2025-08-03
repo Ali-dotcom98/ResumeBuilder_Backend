@@ -20,7 +20,7 @@ router.post("/CreateR", async (req, res) => {
                 designation: "",
                 summary: "",
             },
-            constactInfo: {
+            contactInfo: {
                 email: "",
                 phone: "",
                 location: "",

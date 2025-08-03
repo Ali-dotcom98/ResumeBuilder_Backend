@@ -53,7 +53,7 @@ const ResumeModel = new mongoose.Schema({
     interests: [String],
     template: {
         theme: { type: String },
-        colorPalette: { type: String }
+        colorPalette: [{ type: String }]
     }
 
 
